@@ -1,4 +1,5 @@
 import {SignUpController} from './signup-controller'
+import {MissingParamError} from '../errors/missing-param-error'
 
 // a gente começa sempre criando uma instância da classe que estamos testando
 // no caso é o SignUpController. A gente costuma chamar a instância dessa classe de 'sut' system under test
@@ -16,7 +17,7 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     // aqui foi utilizado .toEqual para comparar os resultados, pois estamos comparando dois objetos, e nesse caso
     // estamos comparando o endereço de memória, sendo assim o toBe não serve para esse tipo de comparação
-    expect(httpResponse.body).toEqual(new Error('Missing param: name')) 
+    expect(httpResponse.body).toEqual(new MissingParamError('name')) 
   })
 
   test('Should return 400 if no email is provided', () => {
@@ -30,7 +31,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Missing param: email'))
+    expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
 })
