@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist", // onde queremos que seja gerado o código javascript
+    "module": "commonjs",
+    "target": "es2019", // a versão do javascript que será gerado após compilado
+    "esModuleInterop": true, // os módulos que ainda usam commonjs, se a gente usar import ou export, vai funcionar pois será convertido internamente
+    "allowJs": true // se houverem arquivos de configuração javascript, eles também serão incluídos na pasta definida em "outDir" após serem compilados
+    
+  }
+}
