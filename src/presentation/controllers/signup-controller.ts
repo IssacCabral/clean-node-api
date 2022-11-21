@@ -1,8 +1,6 @@
-import { IController } from "../protocols.ts/controller"
-import { HttpRequest, HttpResponse } from "../protocols.ts/http";
 import { badRequest, serverError } from "../helpers/http-helper";
-import { EmailValidator } from "../protocols.ts/email-validator";
 import {MissingParamError, InvalidParamError} from '../errors/index'
+import {IController, HttpRequest, HttpResponse, EmailValidator} from '../protocols/index'
 
 export class SignUpController implements IController{
   constructor(
