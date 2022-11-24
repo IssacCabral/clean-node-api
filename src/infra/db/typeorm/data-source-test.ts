@@ -12,13 +12,4 @@ const dataSourceTest = new DataSource({
   entities: [__dirname + "/entities/*{.ts,.js}"],
 });
 
-dataSourceTest
-  .initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-  })
-  .catch((err) => {
-    console.error("Error during Data Source initialization", err);
-  });
-
 export default dataSourceTest;
