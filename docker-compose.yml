@@ -1,0 +1,49 @@
+version: "3"
+
+networks:
+  test_projects:
+    external: true
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Docker/api/Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    networks:
+      - test_projects
+    depends_on:
+      - db_local
+  
+  db_local:
+    build:
+      context: ./Docker/db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: clean_node_api_local
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data-local:/var/lib/mysql
+    networks:
+      - test_projects
+  
+  db_test:
+    build:
+      context: ./Docker/db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_test
+      MYSQL_DATABASE: clean_node_api_test
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data-test:/var/lib/mysql
+    networks:
+      - test_projects
+
+volumes:
+  db-data-local:
+  db-data-test:
