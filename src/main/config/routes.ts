@@ -1,11 +1,9 @@
-import { Express, Router } from "express"
+import { Router } from "express";
 
-export const setUpRoutes = (app: Express) => {
-  const router = Router()
+const router = Router();
 
-  router.get('/hello', (req, res) => {
-    return res.json({message: 'Welcome to my server'})
-  })
+router.get("/hello", (req, res) => {
+  return res.json({ message: "Welcome to my server" });
+});
 
-  app.use(router)
-}
+export default router
