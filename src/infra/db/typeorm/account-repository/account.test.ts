@@ -1,6 +1,15 @@
-import dataSourceTest from "../data-source-test";
 import { Account } from "../entities/account";
 import { AccountTypeOrmRepository } from "./account";
+
+import env from "../../../config/env";
+import { DataSource } from "typeorm";
+
+const dataSourceTest = new DataSource({
+  type: "mysql",
+  url: env.DB_CONNECTION,
+  migrations: [__dirname + "/../migrations/*{.ts,.js}"],
+  entities: [__dirname + "/../entities/*{.ts,.js}"]
+});
 
 describe('Account Typeorm Repository', () => {
   beforeAll(async () => {

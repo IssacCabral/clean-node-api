@@ -1,3 +1,5 @@
+import "reflect-metadata"
+import "../infra/db/typeorm/data-source"
 import app from './config/app'
 import env from '../infra/config/env'
 

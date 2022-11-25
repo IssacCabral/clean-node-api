@@ -1,17 +1,10 @@
 import env from 'dotenv'
 
-env.config()
+env.config({
+  path: process.env.NODE_ENV === "test" ? ".env.testing" : ".env"
+})
 
 export default {
-  SERVER_PORT: process.env.SERVER_PORT,
-  TYPEORM_HOST: process.env.TYPEORM_HOST,
-  TYPEORM_PORT: process.env.TYPEORM_PORT,
-  TYPEORM_USERNAME: process.env.TYPEORM_USERNAME,
-  TYPEORM_PASSWORD: process.env.TYPEORM_PASSWORD,
-  TYPEORM_DATABASE: process.env.TYPEORM_DATABASE,
-  TYPEORM_HOST_TEST: process.env.TYPEORM_HOST_TEST,
-  TYPEORM_PORT_TEST: process.env.TYPEORM_PORT_TEST,
-  TYPEORM_USERNAME_TEST: process.env.TYPEORM_USERNAME_TEST,
-  TYPEORM_PASSWORD_TEST: process.env.TYPEORM_PASSWORD_TEST,
-  TYPEORM_DATABASE_TEST: process.env.TYPEORM_DATABASE_TEST
+  SERVER_PORT: process.env.SERVER_PORT || 3000,
+  DB_CONNECTION: process.env.DB_CONNECTION
 }
