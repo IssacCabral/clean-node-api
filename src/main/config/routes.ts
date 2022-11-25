@@ -1,9 +1,6 @@
-import { Router } from "express";
+import { Express} from "express"
+import mainRouter from "../routes/main-router"
 
-const router = Router();
-
-router.get("/hello", (req, res) => {
-  return res.json({ message: "Welcome to my server" });
-});
-
-export default router
+export default (app: Express) => {
+  app.use(mainRouter)
+}
