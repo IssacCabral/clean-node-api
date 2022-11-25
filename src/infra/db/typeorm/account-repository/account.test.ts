@@ -12,13 +12,16 @@ describe('Account Typeorm Repository', () => {
   })
 
   beforeEach(async () => {
-    const accountRepository = dataSourceTest.getRepository(Account)
-    await accountRepository.clear()
+    await dataSourceTest.getRepository(Account).clear()
   })
 
-  test('Should return an account on success', async () => {
+  const makeSut = (): AccountTypeOrmRepository => {
     const accountRepository = dataSourceTest.getRepository(Account)
-    const sut = new AccountTypeOrmRepository(accountRepository)
+    return new AccountTypeOrmRepository(accountRepository)
+  }
+
+  test('Should return an account on success', async () => {
+    const sut = makeSut()
     const account = await sut.add({
       name: 'any_name',
       email: 'any_email@mail.com',
