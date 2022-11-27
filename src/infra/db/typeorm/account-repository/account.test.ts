@@ -1,32 +1,23 @@
 import { Account } from "../entities/account";
 import { AccountTypeOrmRepository } from "./account";
-
-import env from "../../../config/env";
-import { DataSource } from "typeorm";
-
-const dataSourceTest = new DataSource({
-  type: "mysql",
-  url: env.DB_CONNECTION,
-  migrations: [__dirname + "/../migrations/*{.ts,.js}"],
-  entities: [__dirname + "/../entities/*{.ts,.js}"]
-});
+import dataSource from "../data-source";
 
 describe('Account Typeorm Repository', () => {
   beforeAll(async () => {
-    await dataSourceTest.initialize()
+    await dataSource.initialize()
   })
 
   afterAll(async () => {
-    await dataSourceTest.destroy()
+    await dataSource.getRepository(Account).clear()
+    await dataSource.destroy()
   })
 
   beforeEach(async () => {
-    await dataSourceTest.getRepository(Account).clear()
+    await dataSource.getRepository(Account).clear()
   })
 
   const makeSut = (): AccountTypeOrmRepository => {
-    const accountRepository = dataSourceTest.getRepository(Account)
-    return new AccountTypeOrmRepository(accountRepository)
+    return new AccountTypeOrmRepository()
   }
 
   test('Should return an account on success', async () => {

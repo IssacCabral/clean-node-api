@@ -1,4 +1,5 @@
 import { Router } from "express";
+import env from "../../../infra/config/env";
 
 const signupRoutes = Router()
 
