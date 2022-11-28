@@ -10,7 +10,7 @@ export const makeSignUpController = (): IController => {
   const emailValidatorAdapter = new EmailValidatorAdapter()
   const bcrypAdapter = new BcryptAdapter(salt)
   const accountTypeOrmRepository = new AccountTypeOrmRepository()
-  const dbAddAccount = new DbAddAccount(bcrypAdapter)
+  const dbAddAccount = new DbAddAccount(bcrypAdapter, accountTypeOrmRepository)
   const signUpController = new SignUpController(emailValidatorAdapter, dbAddAccount)
   return signUpController
 }
