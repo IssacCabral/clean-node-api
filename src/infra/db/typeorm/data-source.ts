@@ -4,10 +4,10 @@ import { DataSource } from "typeorm";
 const dataSource = new DataSource({
   type: "mysql",
   url: env.DB_CONNECTION,
-  migrations: [__dirname + "/migrations/*{.ts,.js}"],
-  entities: [__dirname + "/entities/*{.ts,.js}"]
+  migrations: [__dirname + "/migrations/*.{ts,js}"],
+  entities: [__dirname + "/entities/*.{ts,js}"]
 });
 
-console.log('dentro do data-source: ' + env.DB_CONNECTION)
+console.log(__dirname + "/entities")
 
 export default dataSource;
