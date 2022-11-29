@@ -1,7 +1,6 @@
 import { InvalidParamError, ServerError } from '../../errors'
-import { EmailValidator, HttpRequest } from '../signup/signup-protocols'
+import { EmailValidator, HttpRequest, Authentication } from './login-protocols'
 import {LoginController} from './login-controller'
-import { Authentication } from '../../../domain/usecases/authentication'
 import { unauthorized } from '../../helpers/http-helper'
 
 const makeAuthentication = (): Authentication => {
