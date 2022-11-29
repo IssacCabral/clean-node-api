@@ -25,7 +25,7 @@ export class LoginController implements IController{
         return badRequest(new InvalidParamError('email'))
       }
     } catch(error){
-      return serverError()
+      return serverError(error)
     }
   }
 
