@@ -1,8 +1,13 @@
 import { HttpRequest, HttpResponse, IController } from "../../protocols";
 import {badRequest, ok, serverError} from '../../helpers/http-helper'
 import {InvalidParamError, MissingParamError} from '../../errors/index'
+import { EmailValidator } from "../signup/signup-protocols";
 
 export class LoginController implements IController{
+  constructor(
+    private readonly emailValidator: EmailValidator
+  ) {}
+
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try{
       const requiredFields = ["email", "password"]
@@ -13,6 +18,9 @@ export class LoginController implements IController{
         }
       }
 
+      const {email} = httpRequest.body
+
+      this.emailValidator.isValid(email)
     } catch(error){
       return serverError()
     }
