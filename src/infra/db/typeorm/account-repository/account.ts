@@ -16,7 +16,12 @@ export class AccountTypeOrmRepository implements AddAccountRepository{
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const account = this.accountsRepository.create(Object.assign({}, accountData, {id: crypto.randomUUID()}))
     await this.accountsRepository.save(account) 
-    return account
+    return {
+      id: account.id,
+      name: account.name,
+      email: account.email,
+      password: account.password
+    }
   }
 
 }
