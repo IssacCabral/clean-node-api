@@ -8,6 +8,4 @@ const dataSource = new DataSource({
   entities: [__dirname + "/entities/*.{ts,js}"]
 });
 
-console.log(__dirname + "/entities")
-
 export default dataSource;
