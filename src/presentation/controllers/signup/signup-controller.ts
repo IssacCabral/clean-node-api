@@ -12,7 +12,10 @@ export class SignUpController implements IController{
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try{
       if(this.validation){
-        this.validation.validate(httpRequest.body)
+        const error = this.validation.validate(httpRequest.body)
+        if(error){
+          return badRequest(error)
+        }
       }
       const requiredFields = ["name", "email", "password", "passwordConfirmation"]
       
