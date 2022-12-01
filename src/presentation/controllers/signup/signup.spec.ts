@@ -14,15 +14,6 @@ const makeFakeRequest = (): HttpRequest => {
   }
 }
 
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator{
-    isValid(email: string): boolean{
-      return true
-    }
-  }
-  return new EmailValidatorStub()
-}
-
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation{
     validate(input: any): Error | null{
@@ -49,7 +40,6 @@ const makeAddAccount = (): AddAccount => {
 
 interface SutTypes{
   sut: SignUpController
-  emailValidatorStub: EmailValidator
   addAccountStub: AddAccount
   validationStub: Validation
 }
@@ -57,73 +47,17 @@ interface SutTypes{
 // a gente começa sempre criando uma instância da classe que estamos testando
 // no caso é o SignUpController. A gente costuma chamar a instância dessa classe de 'sut' system under test
 const makeSut = (): SutTypes => {
-  const emailValidatorStub = makeEmailValidator()
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
-  const sut = new SignUpController(emailValidatorStub, addAccountStub, validationStub)
+  const sut = new SignUpController(addAccountStub, validationStub)
   return {
     sut,
-    emailValidatorStub,
     addAccountStub,
     validationStub
   }
 }
 
 describe('SignUp Controller', () => {
-  test('Should return 400 if an invalid email is provided', async () => {
-    const {sut, emailValidatorStub} = makeSut()
-    // estou usando o jest para alterar o valor do retorno de uma função
-    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: "invalid_email@mail.com", // o texto que eu coloco aqui não faz diferença para o nosso teste. isso é para dar semântica
-        password: 'any_password',
-        passwordConfirmation: 'any_password'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
-  })
-
-  // Esse teste é para evitar de lá no controller, que o método isValid seja chamado
-  // com um email que não seja o passado na request 
-  test('Should call EmailValidator with correct email', () => {
-    const {sut, emailValidatorStub} = makeSut()
-    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: "any_email@mail.com",
-        password: 'any_password',
-        passwordConfirmation: 'any_password'
-      }
-    }
-    sut.handle(httpRequest)
-    expect(isValidSpy).toHaveBeenCalledWith("any_email@mail.com")
-  })
-
-  // Ao invés de utilizarmos uma factory para  o EmailValidator e estarmos mocando, utilizamos o método
-  // .mockImplementationOnce() do jest para mockar um retorno de uma função
-  test('Should return 500 if Email validator throws', async () => {
-    const {sut, emailValidatorStub} = makeSut()
-    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error()
-    })
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: "any_email@mail.com", 
-        password: 'any_password',
-        passwordConfirmation: 'any_password'
-      }
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
-  })
-
   test('Should return 500 if AddAccount throws', async () => {
     const {sut, addAccountStub} = makeSut()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
